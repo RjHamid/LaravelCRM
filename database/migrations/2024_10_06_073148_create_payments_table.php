@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id');
-            $table->integer('tracking_code');
+            $table->foreignId('order_id')->constrained();
+            $table->string('tracking_code');
             $table->string('card_pin');
-            $table->integer('total_price');
+            $table->string('total_price');
             $table->string('status');
             $table->timestamps();
         });

@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
+            $table->foreignId('user_id')->constrained();
             $table->string('type');
-            $table->integer('dafu_id');
+            $table->integer('data_id');
             $table->text('description');
-            $table->string('status');
+            $table->string('status')->default(0);
             $table->timestamps();
         });
     }

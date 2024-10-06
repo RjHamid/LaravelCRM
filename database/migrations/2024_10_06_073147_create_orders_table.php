@@ -13,11 +13,15 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('uniqve_code');
-            $table->integer('address_id');
-            $table->string('gote');
-            $table->integer('price_total');
-            $table->integer('trancation_id');
+            $table->string('unique_code')->unique();
+            $table->foreign('unique_code')
+                ->references('unique_code')
+                ->on('carts')
+                ->onDelete('cascade');
+            $table->foreignId('address_id')->constrained();
+            $table->string('gate');
+            $table->string('price_total');
+            $table->string('transaction_id')->nullable();
             $table->string('status');
             $table->timestamps();
         });

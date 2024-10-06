@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('sms', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->integer('code');
+            $table->foreignId('user_id')->constrained();
+            $table->string('code');
+            $table->string('status')->default(0);
             $table->timestamps();
         });
     }
