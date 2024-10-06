@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained();
             $table->string('tracking_code');
             $table->string('card_pin');
-            $table->string('total_price');
+            $table->integer('total_price');
             $table->string('status');
             $table->timestamps();
         });
