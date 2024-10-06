@@ -19,6 +19,7 @@ return new class extends Migration
             $table->integer('count');
             $table->string('price_unit');
             $table->string('status');
+            $table->index('unique_code');
             $table->timestamps();
         });
     }
