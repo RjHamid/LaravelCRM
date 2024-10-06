@@ -17,8 +17,6 @@ return new class extends Migration
             $table->string('percent');
             $table->string('max_amount');
             $table->integer('max_usage');
-            $table->timestamp('started_at');
-            $table->timestamp('expire_at');
             $table->timestamps();
         });
     }
