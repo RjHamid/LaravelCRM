@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained();
             $table->string('unique_code')->unique();
             $table->integer('count');
-            $table->string('price_unit');
+            $table->integer('price_unit');
             $table->string('status');
             $table->index('unique_code');
             $table->timestamps();
