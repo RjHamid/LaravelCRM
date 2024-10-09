@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Roles;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -21,16 +22,19 @@ class UserFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
-    {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->unique()->safeEmail(),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
-        ];
-    }
+    public function definition()  
+    {  
+        return [  
+            'name' => $this->faker->unique()->name,  
+            'password' => $this->faker->randomNumber(8), // اگر می‌خواهید از نوع integer استفاده کنید  
+            'role_id' => \App\Models\Roles::factory(), // فرض بر این است که یک مدل Role دارید  
+            'phone' => $this->faker->unique()->phoneNumber,  
+            'email' => $this->faker->unique()->safeEmail,  
+            'email_verify' => now(), // می‌توانید این را به null تغییر دهید اگر می‌خواهید تایید نشده باشد  
+            'created_at' => now(),  
+            'updated_at' => now(),  
+        ];  
+    }  
 
     /**
      * Indicate that the model's email address should be unverified.
