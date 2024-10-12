@@ -13,18 +13,27 @@ class PaymentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id = null)
-    {
-        if ($id) {
-            $payment = Payment::where('id', $id)->first();
-
-            return response()->json(new PaymentResource($payment));
-        } else {
-            $payment = Payment::get();
-
-            return response()->json(new PaymentCollection($payment));
-        }
-    }
+    public function index($id = null)  
+    {  
+        if ($id) {  
+            // پیدا کردن یک کارت خاص با ID مشخص  
+            $payment = Payment::find($id);  
+    
+            // بررسی وجود رکورد  
+            if (!$payment) {  
+                return response()->json(['message' => 'payment not found'], 404);  
+            }  
+    
+            // بازگشت تنها رکورد  
+            return response()->json(new PaymentResource($payment));  
+        } else {  
+            // بازگشت تمام رکوردها  
+            $payment = Payment::all();  
+    
+            // بازگشت مجموعه رکوردها  
+            return response()->json(PaymentResource::collection($payment));  
+        }  
+    } 
 
     /**
      * Show the form for creating a new resource.
@@ -55,12 +64,21 @@ class PaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)
-    {
-        $payment = Payment::where('id', $id)
-            ->update($request->toArray());
-
-        return response()->json(new PaymentResource($payment));
+    public function edit(Request $request, $id)  
+    {  
+        // پیدا کردن رکورد  
+        $payment = Payment::find($id);  
+    
+        // بررسی وجود رکورد  
+        if (!$payment) {  
+            return response()->json(['message' => 'payment not found'], 404);  
+        }  
+    
+        // بروزرسانی رکورد  
+        $payment->update($request->toArray());  
+    
+        // بازگشت به روز رسانی شده  
+        return response()->json(new PaymentResource($payment));  
     }
 
 

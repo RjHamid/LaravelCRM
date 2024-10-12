@@ -13,18 +13,27 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id = null)
-    {
-        if ($id) {
-            $order = Order::where('id', $id)->first();
-
-            return response()->json(new OrderResource($order));
-        } else {
-            $order = Order::get();
-
-            return response()->json(new OrderCollection($order));
-        }
-    }
+    public function index($id = null)  
+    {  
+        if ($id) {  
+            // پیدا کردن یک کارت خاص با ID مشخص  
+            $order = Order::find($id);  
+    
+            // بررسی وجود رکورد  
+            if (!$order) {  
+                return response()->json(['message' => 'Order not found'], 404);  
+            }  
+    
+            // بازگشت تنها رکورد  
+            return response()->json(new OrderResource($order));  
+        } else {  
+            // بازگشت تمام رکوردها  
+            $orders = Order::all();  
+    
+            // بازگشت مجموعه رکوردها  
+            return response()->json(OrderResource::collection($orders));  
+        }  
+    } 
 
 
     /**
@@ -56,12 +65,21 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)
-    {
-        $order = Order::where('id', $id)
-            ->update($request->toArray());
-
-        return response()->json(new OrderResource($order));
+    public function edit(Request $request, $id)  
+    {  
+        // پیدا کردن رکورد  
+        $order = Order::find($id);  
+    
+        // بررسی وجود رکورد  
+        if (!$order) {  
+            return response()->json(['message' => 'Order not found'], 404);  
+        }  
+    
+        // بروزرسانی رکورد  
+        $order->update($request->toArray());  
+    
+        // بازگشت به روز رسانی شده  
+        return response()->json(new OrderResource($order));  
     }
 
 
