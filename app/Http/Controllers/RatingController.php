@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreRatingRequest;
+use App\Http\Requests\UpdateRatingRequest;
 use App\Http\Resources\RatingResource;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class RatingController
 {
-    public function create(Request $request){
+    public function create(StoreRatingRequest $request){
 
         $rating=Rating::create($request->toArray());
 
@@ -36,7 +38,7 @@ class RatingController
         }  
     } 
 
-    public function edit(Request $request, $id)  
+    public function edit(UpdateRatingRequest $request, $id)  
     {  
         // پیدا کردن رکورد  
         $rating = Rating::find($id);  

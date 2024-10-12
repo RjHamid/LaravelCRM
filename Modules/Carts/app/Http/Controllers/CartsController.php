@@ -3,6 +3,8 @@
 namespace Modules\Carts\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCartRequest;
+use App\Http\Requests\UpdateCartRequest;
 use App\Http\Resources\CartCollection;
 use App\Http\Resources\CartResource;
 use App\Models\Carts;
@@ -38,7 +40,7 @@ class CartsController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request){
+    public function create(StoreCartRequest $request){
 
         $cart=Carts::create($request->toArray());
 
@@ -64,7 +66,7 @@ class CartsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)  
+    public function edit(UpdateCartRequest $request, $id)  
     {  
         // پیدا کردن رکورد  
         $order = Carts::find($id);  

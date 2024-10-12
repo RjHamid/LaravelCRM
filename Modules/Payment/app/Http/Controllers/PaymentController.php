@@ -3,6 +3,8 @@
 namespace Modules\Payment\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePaymentRequest;
+use App\Http\Requests\UpdatePaymentRequest;
 use App\Http\Resources\PaymentCollection;
 use App\Http\Resources\PaymentResource;
 use App\Models\Payment;
@@ -38,7 +40,7 @@ class PaymentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request){
+    public function create(StorePaymentRequest $request){
 
         $payment=Payment::create($request->toArray());
 
@@ -64,7 +66,7 @@ class PaymentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)  
+    public function edit(UpdatePaymentRequest $request, $id)  
     {  
         // پیدا کردن رکورد  
         $payment = Payment::find($id);  

@@ -3,6 +3,8 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
 use App\Http\Resources\OrderCollection;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
@@ -39,7 +41,7 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request){
+    public function create(StoreOrderRequest $request){
 
         $order=Order::create($request->toArray());
 
@@ -65,7 +67,7 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)  
+    public function edit(UpdateOrderRequest $request, $id)  
     {  
         // پیدا کردن رکورد  
         $order = Order::find($id);  
