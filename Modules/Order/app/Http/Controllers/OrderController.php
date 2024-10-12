@@ -3,6 +3,8 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\OrderCollection;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
@@ -15,11 +17,13 @@ class OrderController extends Controller
     {
         if ($id) {
             $order = Order::where('id', $id)->first();
+
+            return response()->json(new OrderResource($order));
         } else {
             $order = Order::get();
-        }
 
-        return response()->json($order);
+            return response()->json(new OrderCollection($order));
+        }
     }
 
 
@@ -30,7 +34,7 @@ class OrderController extends Controller
 
         $order=Order::create($request->toArray());
 
-        return response()->json($order);
+        return response()->json(new OrderResource($order));
     }
 
     /**
@@ -57,7 +61,7 @@ class OrderController extends Controller
         $order = Order::where('id', $id)
             ->update($request->toArray());
 
-        return response()->json($order);
+        return response()->json(new OrderResource($order));
     }
 
 

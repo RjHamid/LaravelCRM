@@ -3,6 +3,8 @@
 namespace Modules\Payment\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PaymentCollection;
+use App\Http\Resources\PaymentResource;
 use App\Models\Payment;
 use Illuminate\Http\Request;
 
@@ -15,11 +17,13 @@ class PaymentController extends Controller
     {
         if ($id) {
             $payment = Payment::where('id', $id)->first();
+
+            return response()->json(new PaymentResource($payment));
         } else {
             $payment = Payment::get();
-        }
 
-        return response()->json($payment);
+            return response()->json(new PaymentCollection($payment));
+        }
     }
 
     /**
@@ -29,7 +33,7 @@ class PaymentController extends Controller
 
         $payment=Payment::create($request->toArray());
 
-        return response()->json($payment);
+        return response()->json(new PaymentResource($payment));
     }
 
     /**
@@ -56,7 +60,7 @@ class PaymentController extends Controller
         $payment = Payment::where('id', $id)
             ->update($request->toArray());
 
-        return response()->json($payment);
+        return response()->json(new PaymentResource($payment));
     }
 
 

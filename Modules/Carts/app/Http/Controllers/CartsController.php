@@ -3,6 +3,8 @@
 namespace Modules\Carts\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CartCollection;
+use App\Http\Resources\CartResource;
 use App\Models\Carts;
 use Illuminate\Http\Request;
 
@@ -15,11 +17,15 @@ class CartsController extends Controller
     {
         if ($id) {
             $cart = Carts::where('id', $id)->first();
+
+            return response()->json(new CartResource ($cart));
         } else {
             $cart = Carts::get();
+
+            return response()->json(new CartCollection($cart));
         }
 
-        return response()->json($cart);
+       
     }
 
     /**
@@ -29,7 +35,7 @@ class CartsController extends Controller
 
         $cart=Carts::create($request->toArray());
 
-        return response()->json($cart);
+        return response()->json(new CartResource($cart));
     }
 
     /**
@@ -56,7 +62,7 @@ class CartsController extends Controller
         $cart = Carts::where('id', $id)
             ->update($request->toArray());
 
-        return response()->json($cart);
+        return response()->json(new CartResource($cart));
     }
 
     /**
