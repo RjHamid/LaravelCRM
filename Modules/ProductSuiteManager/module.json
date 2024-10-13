@@ -1,0 +1,11 @@
+{
+    "name": "ProductSuiteManager",
+    "alias": "productsuitemanager",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ProductSuiteManager\\Providers\\ProductSuiteManagerServiceProvider"
+    ],
+    "files": []
+}

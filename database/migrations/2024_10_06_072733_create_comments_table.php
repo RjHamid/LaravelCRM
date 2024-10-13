@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('type');
             $table->integer('data_id');
             $table->text('description');
-            $table->string('status')->default(0);
+            $table->string('status')->default('not-published');
             $table->timestamps();
         });
     }
