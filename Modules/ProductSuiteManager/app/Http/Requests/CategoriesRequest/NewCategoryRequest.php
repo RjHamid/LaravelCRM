@@ -14,7 +14,7 @@ class NewCategoryRequest extends FormRequest
         return [
             'parent_id' => ['nullable' , 'numeric' ,'exists:categories,id'],
             'title' => ['required' ,'unique:categories,title' ,'min:2' , 'max:70'],
-            'type' => ['required' ,'min:2' ,'max:70']
+            'type' => ['required' ,'min:2' ,'max:70','in:product,blog']
         ];
     }
 

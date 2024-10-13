@@ -57,7 +57,6 @@ class CommentsController extends Controller
 
         switch ($type)
         {
-            case 'محصول':
             case 'product' :
                 $productExists = Product::query()->where('id' , $id)
                     ->exists();
@@ -86,7 +85,6 @@ class CommentsController extends Controller
                     ])->setStatusCode(200);
                 }
                 break;
-            case 'بلاگ':
             case 'blog' :
                 return response([
                     'data'=> ''
@@ -95,7 +93,7 @@ class CommentsController extends Controller
             default :
                 return response()->json([
                     'data'=> [
-                        'message'  => 'تایپ فرستاده شده مورده قبول نیست'
+                        'message'  => ' (product,blog) تایپ فرستاده شده مورده قبول نیست'
                     ]
                 ]);
         }

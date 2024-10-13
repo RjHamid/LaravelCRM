@@ -14,7 +14,7 @@ class UpdateCategoryRequest extends FormRequest
         return [
             'parent_id' => ['nullable' , 'numeric' ,'exists:categories,id'],
             'title' => ['nullable' ,'min:2' , 'max:70'],
-            'type' => ['nullable' ,'min:2' ,'max:70']
+            'type' => ['nullable' ,'min:2' ,'max:70','in:product,blog']
         ];
     }
 

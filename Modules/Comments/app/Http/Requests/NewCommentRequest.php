@@ -13,7 +13,6 @@ class NewCommentRequest extends FormRequest
     {
         return [
            'description' => ['required' , 'min:3' , 'max:250'],
-//            'type' => ['required' , 'min:1' , 'max:50'],
         ];
     }
 
@@ -23,9 +22,6 @@ class NewCommentRequest extends FormRequest
             'description.required' => 'فیلد مورده نظر اجباری است',
             'description.min' => 'توضیحات مورده نظر باید  حداقل حتما دارای 3 حرف باشد ',
             'description.max' => 'توضیحات مورده نظر باید  حداکثر حتما دارای 250 حرف باشد ',
-            /*'type.required' => 'فیلد مورده نظر اجباری است',
-            'type.min' => 'تایپ مورده نظر باید  حداقل حتما دارای 1  حرف باشد ',
-            'type.max' => 'توضیحات مورده نظر باید  حداکثر حتما دارای 50 حرف باشد '*/
         ];
     }
 

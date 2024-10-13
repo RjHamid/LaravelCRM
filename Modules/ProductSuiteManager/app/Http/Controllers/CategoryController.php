@@ -57,7 +57,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
 
-        if ($category->type == 'محصول' || 'product')
+        if ($category->type == 'product')
         {
             return response()->json(
                 [
@@ -67,7 +67,7 @@ class CategoryController extends Controller
                 ]
             )->setStatusCode(200);
         }
-        if ($category->type == 'بلاگ' || 'blog')
+        if ($category->type == 'blog')
         {
             return response()->json(
                 [
