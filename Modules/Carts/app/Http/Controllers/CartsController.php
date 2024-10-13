@@ -9,6 +9,10 @@ use App\Http\Resources\CartCollection;
 use App\Http\Resources\CartResource;
 use App\Models\Carts;
 use Illuminate\Http\Request;
+use Modules\Carts\Http\Requests\StoreCartRequest as RequestsStoreCartRequest;
+use Modules\Carts\Http\Requests\UpdateCartRequest as RequestsUpdateCartRequest;
+use Modules\Carts\Models\Carts as ModelsCarts;
+use Modules\Carts\Transformers\CartsResource;
 
 class CartsController extends Controller
 {
@@ -19,7 +23,7 @@ class CartsController extends Controller
     {  
         if ($id) {  
             // پیدا کردن یک کارت خاص با ID مشخص  
-            $cart = Carts::find($id);  
+            $cart = ModelsCarts::find($id);  
     
             // بررسی وجود رکورد  
             if (!$cart) {  
@@ -27,24 +31,24 @@ class CartsController extends Controller
             }  
     
             // بازگشت تنها رکورد  
-            return response()->json(new CartResource($cart));  
+            return response()->json(new CartsResource($cart));  
         } else {  
             // بازگشت تمام رکوردها  
-            $carts = Carts::all();  
+            $carts = ModelsCarts::all();  
     
             // بازگشت مجموعه رکوردها  
-            return response()->json(CartResource::collection($carts));  
+            return response()->json(CartsResource::collection($carts));  
         }  
     } 
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StoreCartRequest $request){
+    public function create(RequestsStoreCartRequest $request){
 
-        $cart=Carts::create($request->toArray());
+        $cart=ModelsCarts::create($request->toArray());
 
-        return response()->json(new CartResource($cart));
+        return response()->json(new CartsResource($cart));
     }
 
     /**
@@ -66,10 +70,10 @@ class CartsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UpdateCartRequest $request, $id)  
+    public function edit(RequestsUpdateCartRequest $request, $id)  
     {  
         // پیدا کردن رکورد  
-        $order = Carts::find($id);  
+        $order = ModelsCarts::find($id);  
     
         // بررسی وجود رکورد  
         if (!$order) {  
@@ -80,7 +84,7 @@ class CartsController extends Controller
         $order->update($request->toArray());  
     
         // بازگشت به روز رسانی شده  
-        return response()->json(new CartResource($order));  
+        return response()->json(new CartsResource($order));  
     }
 
     /**
@@ -88,7 +92,7 @@ class CartsController extends Controller
      */
     public function delete($id)
     {
-        Carts::where('id', $id)->delete();
+        ModelsCarts::where('id', $id)->delete();
 
         return response()->json('cart deleted successfully!');
     }

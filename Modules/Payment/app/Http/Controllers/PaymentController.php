@@ -3,12 +3,11 @@
 namespace Modules\Payment\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StorePaymentRequest;
-use App\Http\Requests\UpdatePaymentRequest;
-use App\Http\Resources\PaymentCollection;
-use App\Http\Resources\PaymentResource;
-use App\Models\Payment;
 use Illuminate\Http\Request;
+use Modules\Payment\Http\Requests\StorePaymentRequest;
+use Modules\Payment\Http\Requests\UpdatePaymentRequest;
+use Modules\Payment\Models\Payment;
+use Modules\Payment\Transformers\PaymentResource;
 
 class PaymentController extends Controller
 {

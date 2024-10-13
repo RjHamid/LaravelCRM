@@ -1,16 +1,25 @@
 <?php
 
-namespace App\Models;
+namespace Modules\Carts\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Products;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Order\Models\Order;
+
+// use Modules\Carts\Database\Factories\CartsFactory;
 
 class Carts extends Model
 {
     use HasFactory;
-    protected $fillable =[
+
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
         'user_id',  
         'product_id',  
         'unique_code',  
@@ -31,5 +40,9 @@ class Carts extends Model
     public function product(): BelongsTo
     {  
         return $this->belongsTo(Products::class);  
-    }  
+    }
+    // protected static function newFactory(): CartsFactory
+    // {
+    //     // return CartsFactory::new();
+    // }
 }

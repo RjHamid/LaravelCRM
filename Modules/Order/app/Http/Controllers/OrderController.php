@@ -3,12 +3,10 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreOrderRequest;
-use App\Http\Requests\UpdateOrderRequest;
-use App\Http\Resources\OrderCollection;
-use App\Http\Resources\OrderResource;
-use App\Models\Order;
-use Illuminate\Http\Request;
+use Modules\Order\Http\Requests\StoreOrderRequest as RequestsStoreOrderRequest;
+use Modules\Order\Http\Requests\UpdateOrderRequest as RequestsUpdateOrderRequest;
+use Modules\Order\Models\Order as ModelsOrder;
+use Modules\Order\Transformers\OrderResource as TransformersOrderResource;
 
 class OrderController extends Controller
 {
@@ -19,7 +17,7 @@ class OrderController extends Controller
     {  
         if ($id) {  
             // پیدا کردن یک کارت خاص با ID مشخص  
-            $order = Order::find($id);  
+            $order = ModelsOrder::find($id);  
     
             // بررسی وجود رکورد  
             if (!$order) {  
@@ -27,13 +25,13 @@ class OrderController extends Controller
             }  
     
             // بازگشت تنها رکورد  
-            return response()->json(new OrderResource($order));  
+            return response()->json(new TransformersOrderResource($order));  
         } else {  
             // بازگشت تمام رکوردها  
-            $orders = Order::all();  
+            $orders = ModelsOrder::all();  
     
             // بازگشت مجموعه رکوردها  
-            return response()->json(OrderResource::collection($orders));  
+            return response()->json(TransformersOrderResource::collection($orders));  
         }  
     } 
 
@@ -41,11 +39,11 @@ class OrderController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(StoreOrderRequest $request){
+    public function create(RequestsStoreOrderRequest $request){
 
-        $order=Order::create($request->toArray());
+        $order=ModelsOrder::create($request->toArray());
 
-        return response()->json(new OrderResource($order));
+        return response()->json(new TransformersOrderResource($order));
     }
 
     /**
@@ -67,10 +65,10 @@ class OrderController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(UpdateOrderRequest $request, $id)  
+    public function edit(RequestsUpdateOrderRequest $request, $id)  
     {  
         // پیدا کردن رکورد  
-        $order = Order::find($id);  
+        $order = ModelsOrder::find($id);  
     
         // بررسی وجود رکورد  
         if (!$order) {  
@@ -81,7 +79,7 @@ class OrderController extends Controller
         $order->update($request->toArray());  
     
         // بازگشت به روز رسانی شده  
-        return response()->json(new OrderResource($order));  
+        return response()->json(new TransformersOrderResource($order));  
     }
 
 
@@ -90,7 +88,7 @@ class OrderController extends Controller
      */
     public function delete($id)
     {
-        Order::where('id', $id)->delete();
+        ModelsOrder::where('id', $id)->delete();
 
         return response()->json('order deleted successfully!');
     }
