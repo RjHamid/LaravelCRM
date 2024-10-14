@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('product_id')->constrained();
-            $table->string('unique_code')->unique();
+            $table->string('unique_code');
             $table->integer('count');
             $table->integer('price_unit');
             $table->string('status');

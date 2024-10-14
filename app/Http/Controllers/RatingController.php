@@ -19,21 +19,21 @@ class RatingController
     public function index($id = null)  
     {  
         if ($id) {  
-            // پیدا کردن یک کارت خاص با ID مشخص  
+             
             $rating = Rating::find($id);  
     
-            // بررسی وجود رکورد  
+             
             if (!$rating) {  
                 return response()->json(['message' => 'rating not found'], 404);  
             }  
     
-            // بازگشت تنها رکورد  
+            
             return response()->json(new RatingResource($rating));  
         } else {  
-            // بازگشت تمام رکوردها  
+            
             $rating = Rating::all();  
     
-            // بازگشت مجموعه رکوردها  
+            
             return response()->json(RatingResource::collection($rating));  
         }  
     } 

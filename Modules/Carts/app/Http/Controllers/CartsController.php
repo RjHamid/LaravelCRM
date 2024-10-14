@@ -46,9 +46,23 @@ class CartsController extends Controller
      */
     public function create(RequestsStoreCartRequest $request){
 
-        $cart=ModelsCarts::create($request->toArray());
+        $uniqueCode = rand(1000, 9999);  
 
-        return response()->json(new CartsResource($cart));
+       
+        $cart = ModelsCarts::create([  
+            'user_id' => $request->user_id,  
+            'product_id' => $request->product_id,  
+            'unique_code' => $uniqueCode,  
+            'count' => $request->count,  
+            'price_unit' => $request->price_unit,  
+            'status' => $request->status,  
+        ]);  
+
+        return response()->json([  
+            'message' => 'سبد خرید با موفقیت ایجاد شد.',  
+            'cart' => $cart,  
+        ], 201);  
+    
     }
 
     /**
@@ -96,7 +110,19 @@ class CartsController extends Controller
 
         return response()->json('cart deleted successfully!');
     }
+    public function indexn($userId)  
+{  
+    $carts = ModelsCarts::where('user_id', $userId)->get();
 
+    return response()->json($carts);  
+} 
+public function indexz($userId, $status)  
+{  
+    $carts = ModelsCarts::where('user_id', $userId)  
+                 ->where('status', $status)  
+                 ->get();  
+    return response()->json($carts);  
+}
     /**
      * Remove the specified resource from storage.
      */

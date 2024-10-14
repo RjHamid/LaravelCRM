@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Modules\Order\Http\Requests\StoreOrderRequest as RequestsStoreOrderRequest;
 use Modules\Order\Http\Requests\UpdateOrderRequest as RequestsUpdateOrderRequest;
 use Modules\Order\Models\Order as ModelsOrder;
+use Modules\Carts\Models\Carts as ModelsCarts;
 use Modules\Order\Transformers\OrderResource as TransformersOrderResource;
 
 class OrderController extends Controller
@@ -86,13 +87,30 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function delete($id)
-    {
-        ModelsOrder::where('id', $id)->delete();
-
-        return response()->json('order deleted successfully!');
+    public function indexn($uniqueCode)  
+    {  
+         
+        $cart = ModelsCarts::where('unique_code', $uniqueCode)->first();  
+    
+        if (!$cart) {  
+            return response()->json([  
+                'message' => 'سبد خرید با این کد یکتا پیدا نشد.',  
+            ], 404);  
+        }  
+    
+        
+        $order = ModelsOrder::where('unique_code', $uniqueCode)->first();  
+    
+        if (!$order) {  
+            return response()->json([  
+                'message' => 'سفارش مرتبط با این سبد خرید پیدا نشد.',  
+            ], 404);  
+        }  
+    
+        return response()->json([  
+            'order' => $order,  
+        ], 200);  
     }
-
     /**
      * Remove the specified resource from storage.
      */

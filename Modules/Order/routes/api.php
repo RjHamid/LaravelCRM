@@ -13,8 +13,10 @@ use Modules\Order\Http\Controllers\OrderController;
  * is assigned the "api" middleware group. Enjoy building your API!
  *
 */
-
-Route::post('/Order', [OrderController::class, 'create'])->name('create');
-Route::get('/Order/{id?}', [OrderController::class, 'index'])->name('index');
-Route::put('/Order/{id}', [OrderController::class, 'edit'])->name('edit');
-Route::delete('/Order/{id}', [OrderController::class, 'delete'])->name('delete');
+Route::prefix('Order')->group(function(){
+Route::post('create', [OrderController::class, 'create'])->name('create');
+Route::get('index/{id?}', [OrderController::class, 'index'])->name('index');
+Route::put('edit/{id}', [OrderController::class, 'edit'])->name('edit');
+Route::delete('delete/{id}', [OrderController::class, 'delete'])->name('delete');
+Route::get('indexn/{uniqueCode}', [OrderController::class, 'indexn'])->name('indexn'); 
+});

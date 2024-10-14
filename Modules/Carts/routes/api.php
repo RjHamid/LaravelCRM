@@ -13,8 +13,11 @@ use Modules\Carts\Http\Controllers\CartsController;
  * is assigned the "api" middleware group. Enjoy building your API!
  *
 */
-
-Route::post('/Carts',[CartsController::class,'create'])->name('create');
-Route::get('/Carts/{id?}', [CartsController::class, 'index'])->name('index');
-Route::put('/Carts/{id}', [CartsController::class, 'edit'])->name('edit');
-Route::delete('/Carts/{id}', [CartsController::class, 'delete'])->name('delete');
+Route::prefix('Carts')->group(function(){
+Route::post('create',[CartsController::class,'create'])->name('create');
+Route::get('index/{id?}', [CartsController::class, 'index'])->name('index');
+Route::put('edit/{id}', [CartsController::class, 'edit'])->name('edit');
+Route::delete('delete/{id}', [CartsController::class, 'delete'])->name('delete');
+Route::get('indexn/{userId}', [CartsController::class, 'indexn'])->name('indexn');
+Route::get('indexz/{userId}/{status}', [CartsController::class, 'indexz'])->name('indexz');
+});
