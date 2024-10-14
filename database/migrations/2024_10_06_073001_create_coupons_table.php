@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('unique_code')->unique();
             $table->string('percent');
-            $table->string('max_amount');
+            $table->integer('max_amount');
             $table->integer('max_usage');
             $table->timestamp('started_at');
             $table->timestamp('expire_at');

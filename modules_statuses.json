@@ -1,4 +1,5 @@
 {
     "ProductSuiteManager": true,
-    "Comments": true
+    "Comments": true,
+    "Coupons": true
 }

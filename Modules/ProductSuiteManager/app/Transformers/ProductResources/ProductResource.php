@@ -33,7 +33,6 @@ class ProductResource extends JsonResource
         if ($productCommend)
         {
             $pc = Comment::query()->where('type' ,'product')
-                ->orWhere('type' ,'محصول')
                 ->where('data_id',$this->id)
                 ->where('status','published')
                 ->paginate(6);
