@@ -3,11 +3,13 @@
 namespace Modules\Order\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\order_product;
 use Modules\Order\Http\Requests\StoreOrderRequest as RequestsStoreOrderRequest;
 use Modules\Order\Http\Requests\UpdateOrderRequest as RequestsUpdateOrderRequest;
 use Modules\Order\Models\Order as ModelsOrder;
 use Modules\Carts\Models\Carts as ModelsCarts;
 use Modules\Order\Transformers\OrderResource as TransformersOrderResource;
+use Modules\ProductSuiteManager\Models\Product;
 
 class OrderController extends Controller
 {
@@ -41,10 +43,24 @@ class OrderController extends Controller
      * Show the form for creating a new resource.
      */
     public function create(RequestsStoreOrderRequest $request){
+        $priceTotal = 0;  
 
-        $order=ModelsOrder::create($request->toArray());
+        foreach ($request->products as $productData) {  
+            $product = Product::find($productData['product_id']);  
+            $priceTotal += $product->price * $productData['quantity'];  
+        }  
 
-        return response()->json(new TransformersOrderResource($order));
+        // ایجاد سفارش  
+        $order = ModelsOrder::create([  
+            'unique_code' => $request->unique_code,  
+            'address_id' => $request->address_id,  
+            'gate' => $request->gate,  
+            'price_total' => $priceTotal,  
+            'transaction_id' => null, 
+            'status' => 'pending',  
+        ]);  
+
+        return response()->json(['order' => $order], 201);
     }
 
     /**
@@ -68,18 +84,15 @@ class OrderController extends Controller
      */
     public function edit(RequestsUpdateOrderRequest $request, $id)  
     {  
-        // پیدا کردن رکورد  
+         
         $order = ModelsOrder::find($id);  
-    
-        // بررسی وجود رکورد  
+         
         if (!$order) {  
             return response()->json(['message' => 'Order not found'], 404);  
         }  
     
-        // بروزرسانی رکورد  
         $order->update($request->toArray());  
     
-        // بازگشت به روز رسانی شده  
         return response()->json(new TransformersOrderResource($order));  
     }
 

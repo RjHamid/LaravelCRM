@@ -12,12 +12,12 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [  
-            'unique_code' => 'required|string|unique:orders,unique_code', // کد منحصر به فرد باید یکتا باشد  
-            'address_id' => 'required|exists:addresses,id', // آدرس باید وجود داشته باشد  
-            'gate' => 'required|string|max:255', // درب باید یک رشته باشد  
-            'price_total' => 'required|integer|min:0', // قیمت کل باید عددی بزرگتر یا مساوی ۰ باشد  
-            'transaction_id' => 'nullable|string|max:255', // شناسه تراکنش می‌تواند خالی باشد  
-            'status' => 'required|string|max:255', // وضعیت باید یک رشته باشد  
+            'unique_code' => 'required|string|exists:carts,unique_code',  
+            'address_id' => 'required|exists:addresses,id',  
+            'gate' => 'required|string',  
+            'products' => 'required|array',  
+            'products.*.product_id' => 'required|exists:products,id',  
+            'products.*.quantity' => 'required|integer|min:1',  
         ];
     }
     public function messages(): array  

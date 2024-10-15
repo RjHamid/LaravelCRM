@@ -2,8 +2,12 @@
 
 namespace Modules\ProductSuiteManager\Models;
 
+use App\Models\order_product;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Modules\Order\Models\Order;
+
 // use Modules\ProductSuiteManager\Database\Factories\ProductFactory;
 
 class Product extends Model
@@ -14,7 +18,6 @@ class Product extends Model
      * The attributes that are mass assignable.
      */
     protected $guarded = [];
-
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -64,6 +67,12 @@ class Product extends Model
     {
         return $this->hasMany(Gallery::class);
     }
+    public function orders():BelongsToMany  
+    {  
+        return $this->belongsToMany(Order::class, 'order_products')  
+                    ->withPivot('quantity')  
+                    ->withTimestamps();  
+    } 
 
 
 
