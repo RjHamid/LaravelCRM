@@ -13,7 +13,7 @@ class UpdateCommentRequest extends FormRequest
     {
         return [
             'description' => ['nullable' , 'min:3' , 'max:250'],
-            'type' => ['nullable' , 'min:1' , 'max:50','in:product,blog'],
+            'status' => ['nullable' , 'in:not-published,published']
         ];
     }
 
