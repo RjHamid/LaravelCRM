@@ -1,5 +1,8 @@
 {
     "Carts": true,
     "Payment": true,
-    "Order": true
+    "Order": true,
+    "User": true,
+    "Address": true,
+    "Sms": true
 }

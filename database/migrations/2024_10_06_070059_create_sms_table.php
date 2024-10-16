@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('sms', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained();
+            $table->string('phone')->unique();
             $table->string('code');
             $table->string('status')->default(0);
+            $table->timestamp('expiration_time')->nullable();
             $table->timestamps();
         });
     }

@@ -4,6 +4,7 @@ namespace Database\Factories;
 use App\Models\Address;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\User\Models\User as ModelsUser;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
@@ -18,7 +19,7 @@ class AddressFactory extends Factory
     public function definition(): array  
     {  
         return [  
-            'user_id' => User::factory(), // ایجاد یک کاربر تصادفی  
+            'user_id' => ModelsUser::factory(), // ایجاد یک کاربر تصادفی  
             'description' => $this->faker->address(), // ایجاد یک آدرس تصادفی  
         ];  
     }

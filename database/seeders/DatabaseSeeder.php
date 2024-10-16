@@ -24,7 +24,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory()->count(5)->create();  
+        // $users = User::factory()->count(5)->create();  
 
         // ایجاد ۸ آدرس برای هر کاربر  
         $addresses = Address::factory()->count(5)->create();  

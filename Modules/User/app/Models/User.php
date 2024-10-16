@@ -1,18 +1,28 @@
 <?php
 
-namespace App\Models;
+namespace Modules\User\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Roles;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Carts\Models\Carts;
+
+// use Modules\User\Database\Factories\UserFactory;
 
 class User extends Model
 {
     use HasFactory;
-    protected $fillable = [
 
+    /**
+     * The attributes that are mass assignable.
+     */
+    protected $fillable = [
+        'name',
+        'password',
+        'role_id',
+        'phone',
+        'email',
 
     ];
         /**
@@ -40,5 +50,9 @@ class User extends Model
     {
         return $this->hasMany(Carts::class);
     }
-}
 
+    // protected static function newFactory(): UserFactory
+    // {
+    //     // return UserFactory::new();
+    // }
+}
