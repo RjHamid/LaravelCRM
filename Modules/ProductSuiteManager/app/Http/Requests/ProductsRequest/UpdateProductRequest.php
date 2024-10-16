@@ -16,7 +16,7 @@ class UpdateProductRequest extends FormRequest
             'name' => ['nullable',  'min:2' , 'max:100'],
             'description' => ['nullable' , 'min:2' ,'max:240'],
             'price' => ['nullable','numeric' , 'gte:10000'],
-            'quantity' => ['nullable','numeric','min:1'],
+            'quantity' => ['nullable','numeric','min:0'],
             'pic' => ['nullable','mimes:jpg,svg,jpeg,png,mpeg','min:5','max:5024']
         ];
     }
@@ -38,7 +38,7 @@ class UpdateProductRequest extends FormRequest
             'price.gt' => 'قیمت مورده نظر باید حداقل حتما بشتبر یا مساوی با  10000 (ریال) باشد ',
 
             'quantity.numeric' =>  'موجودی محصول مورده نظر باید به عدد  باشید' ,
-            'quantity.min' =>  'موجودی محصول مورده نظر باید  حداقل حتما باید 1 محصول تو انبار ازش موجود باشد ' ,
+            'quantity.min' =>  'موجودی محصول مورده نظر باید  حداقل حتما باید 0 محصول تو انبار ازش موجود باشد ' ,
 
             'pic.min' => 'عکس مورده نظر باید حداقل باید 5kb باشد ',
             'pic.max' => 'عکس مورده نظر باید حداکثر باید 5mb باشد ',

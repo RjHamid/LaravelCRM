@@ -20,7 +20,7 @@ return new class extends Migration
                 ->onDelete('cascade');
             $table->foreignId('address_id')->constrained();
             $table->string('gate');
-            $table->string('price_total');
+            $table->integer('price_total');
             $table->string('transaction_id')->nullable();
             $table->string('status');
             $table->timestamps();

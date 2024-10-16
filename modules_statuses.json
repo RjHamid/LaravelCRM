@@ -1,5 +1,6 @@
 {
     "ProductSuiteManager": true,
     "Comments": true,
-    "Coupons": true
+    "Coupons": true,
+    "ShopFlow": true
 }
