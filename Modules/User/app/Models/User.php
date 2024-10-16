@@ -23,6 +23,8 @@ class User extends Model
         'role_id',
         'phone',
         'email',
+        'expiration_time',  
+        'email_verify',
 
     ];
         /**

@@ -24,25 +24,29 @@ class AuthController extends Controller
         $User = User::create($request
             ->merge(["password" => Hash::make($request->password)])
             ->toArray());
-        return response()->json($User);
+            if($User){
+                $Token = $User->createToken()->plainTextToken;   
+            }
+        return response()->json($Token);
     }
 
-    public function login(Request $request)
+    public function login_v1(Request $request)
     {
-        $type = $request->type;
         $User = User::select('id', 'phone', 'password')
             ->where('phone', $request->phone)
             ->first();
         if (!$User) {
-            return response()->json('User not found!');
-        } elseif ($type == 'with_password') {
+            return response()->json('User not found!');  
+        } 
             if (!Hash::check($request->password, $User->password)) {
                 return response()->json('Password is INCORRECT!');
             } else {
                 $Token = $User->createToken($request->phone)->plainTextToken;
             }
             return response()->json(["Token" => $Token]);
-        } elseif ($type == 'code_request') {
+        }
+            public function login_request(Request $request)
+            {
             Sms::where('User_id', $request->User_id)->delete();
             $code = rand(1000, 9999);
             $expiration_time = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');
@@ -53,7 +57,12 @@ class AuthController extends Controller
                 ])
                 ->toArray());
             return response()->json(["code" => $data]);
-        } elseif ($type == 'code_confirm') {
+        }
+        public function login_v2(Request $request)
+        {
+            $User = User::select('id', 'phone', 'password')
+            ->where('phone', $request->phone)
+            ->first();
             $code = Sms::select('phone', 'code', 'expiration_time')
                 ->where('phone', $request->phone)
                 ->first();
@@ -70,10 +79,8 @@ class AuthController extends Controller
             } else {
                 return response()->json('The code is EXPIRED!');
             }
-        } else {
-            return response()->json('type not found');
         }
-    }
+    
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
