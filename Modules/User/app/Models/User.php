@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Carts\Models\Carts;
-
+use Modules\Email\Models\Email;
+use Laravel\Sanctum\HasApiTokens;
 // use Modules\User\Database\Factories\UserFactory;
 
 class User extends Model
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
 
     /**
      * The attributes that are mass assignable.
@@ -52,7 +53,10 @@ class User extends Model
     {
         return $this->hasMany(Carts::class);
     }
-
+    public function email():HasMany
+    {  
+        return $this->hasMany(Email::class);  
+    } 
     // protected static function newFactory(): UserFactory
     // {
     //     // return UserFactory::new();

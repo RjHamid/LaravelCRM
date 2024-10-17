@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('role_id')->constrained();
             $table->string('phone')->unique();
             $table->string('email')->unique();
-            $table->timestamp('expiration_time')->nullable();
+            $table->timestamp('expiration_time');
             $table->timestamp('email_verify')->nullable();
             $table->timestamps();
         });

@@ -4,5 +4,6 @@
     "Order": true,
     "User": true,
     "Address": true,
-    "Sms": true
+    "Sms": true,
+    "Email": true
 }

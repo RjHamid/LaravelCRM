@@ -96,4 +96,5 @@ class AddressController extends Controller
 
         return response()->json('Address deleted successfully!');
     }
+    public function indexA(){}
 }

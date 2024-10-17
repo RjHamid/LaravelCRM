@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Email\Http\Controllers\EmailController;
-use Modules\User\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +13,7 @@ use Modules\User\Http\Controllers\UserController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::post('/email/request', [EmailController::class, 'email_request'])->name('email.request');
+
+Route::group([], function () {
+    Route::resource('email', EmailController::class)->names('email');
+});

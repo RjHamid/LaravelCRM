@@ -1,37 +1,32 @@
 <?php
 
-namespace Modules\Sms\Models;
+namespace Modules\Email\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\User\Models\User;
 
-// use Modules\Sms\Database\Factories\SmsFactory;
+// use Modules\Email\Database\Factories\EmailFactory;
 
-class Sms extends Model
+class Email extends Model
 {
     use HasFactory;
 
     /**
      * The attributes that are mass assignable.
      */
-    protected $fillable = [  
-        'phone', 
-        'code',  
-        'status',  
-        'expiration_time',  
-    ];  
-
-    protected $casts = [  
-        'expiration_time' => 'datetime',  
+    protected $fillable = [
+        'email', 
+        'code',    
+        'expiration_time', 
     ];
     public function user():BelongsTo  
     {  
         return $this->belongsTo(User::class);  
     } 
-    // protected static function newFactory(): SmsFactory
+    // protected static function newFactory(): EmailFactory
     // {
-    //     // return SmsFactory::new();
+    //     // return EmailFactory::new();
     // }
 }
