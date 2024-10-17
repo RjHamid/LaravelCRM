@@ -8,6 +8,8 @@ use Modules\Comments\Models\Comment;
 use Modules\Comments\Transformers\ProductCommentResource;
 use Modules\ProductSuiteManager\Transformers\CategoryResources\CategoryResource;
 use Modules\ProductSuiteManager\Transformers\ProductResources\ProductDiscountResource;
+use Modules\Rating\Models\Rate;
+use Modules\Rating\Transformers\RateResource;
 use MongoDB\Driver\Exception\CommandException;
 
 class ProductResource extends JsonResource
@@ -42,6 +44,21 @@ class ProductResource extends JsonResource
             $comments =  ProductCommentResource::collection($pc)->response()->getData();
         }
 
+        $rate = [];
+
+        $productRating = $productCommend = Rate::query()->where('type' , 'product')
+            ->where('data_id',$this->id)->exists();
+
+        if ($productRating)
+        {
+            $ra = Rate::query()->where('type' ,'product')
+                ->where('data_id',$this->id)
+                ->get();
+
+
+            $rate =  RateResource::collection($ra);
+        }
+
         return [
             'id' => $this->id,
             'category' => new CategoryResource($this->category),
@@ -55,7 +72,8 @@ class ProductResource extends JsonResource
             'updated_at' => $this->updated_at->format('Y-m-d'),
             'discount' => new ProductDiscountResource($this),
             'galleries' => $galleries,
-            'comments' => $comments
+            'comments' => $comments,
+            'rating' => $rate
 
 
         ];

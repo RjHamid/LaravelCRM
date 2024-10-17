@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('type');
-            $table->integer('data_id');
+            $table->unsignedBigInteger('data_id');
             $table->text('description');
             $table->string('status')->default('not-published');
             $table->timestamps();

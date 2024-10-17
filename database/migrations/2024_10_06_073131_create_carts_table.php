@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained();
             $table->string('unique_code');
             $table->integer('count');
-            $table->integer('price_unit');
+            $table->unsignedBigInteger('price_unit');
             $table->string('status');
             $table->index('unique_code');
             $table->unique(['user_id','product_id']);

@@ -2,5 +2,6 @@
     "ProductSuiteManager": true,
     "Comments": true,
     "Coupons": true,
-    "ShopFlow": true
+    "ShopFlow": true,
+    "Rating": true
 }

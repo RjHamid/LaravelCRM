@@ -13,6 +13,36 @@ use Modules\ShopFlow\Transformers\CartResources\CartResource;
 
 class CartController extends Controller
 {
+
+
+    public function index()
+    {
+
+        $carts = cart::query()->where('user_id',1)
+            ->where('status' , 'pending')
+            ->get();
+
+        if (!empty($carts))
+        {
+            return response()->json([
+                'data' =>[
+                    'carts' => CartResource::collection($carts)
+                ]
+            ])->setStatusCode(200);
+        }
+        else
+        {
+            return response()->json([
+                'data' => [
+                    'message'  => 'سبد خرید خالی است'
+                ]
+            ])->setStatusCode(200);
+        }
+
+
+    }
+
+
     /**
      * Store a newly created resource in storage.
      */
@@ -44,7 +74,7 @@ class CartController extends Controller
 
                    return response()->json([
                        'data' =>[
-                           'message' => 'این محصول از قبل در کارت خرید موجود است',
+                           'message' => 'این محصول از قبل در سبد خرید  موجود است',
                            'carts' => CartResource::collection($carts)
                        ]
                    ])->setStatusCode(200);
@@ -67,7 +97,7 @@ class CartController extends Controller
 
                return response()->json([
                    'data' =>[
-                       'message' => 'کارت با موفقت ایجاد شد',
+                       'message' => 'سبد خرید با موفقت ایجاد شد',
                        'carts' => CartResource::collection($carts)
                    ]
                ])->setStatusCode(200);
@@ -76,7 +106,7 @@ class CartController extends Controller
            else
            {
 
-               $unique_code = Str::random(10);
+               $unique_code = Str::random(15);
 
                $unique_codeExists = Cart::query()->where('unique_code',$unique_code)
                    ->exists();
@@ -101,7 +131,7 @@ class CartController extends Controller
 
                return response()->json([
                    'data' =>[
-                       'message' => 'کارت با موفقت ایجاد شد',
+                       'message' => 'سبد خرید با موفقت ایجاد شد',
                        'cart' => new CartResource($cart)
                    ]
                ])->setStatusCode(200);
