@@ -33,4 +33,8 @@ Route::post('email_code',[AuthController::class,'email_code'])->name('email_code
 
 Route::post('logout',[AuthController::class,'logout'])->name('logout');
 
+Route::post('code',[AuthController::class,'code'])->name('code');
+
+Route::post('login',[AuthController::class,'login'])->name('logine');
+
 });
