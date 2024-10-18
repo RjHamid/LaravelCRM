@@ -10,7 +10,10 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail as FacadesMail;
 use Modules\Email\Models\Email;
 use Modules\Sms\Models\Sms;
+use Modules\User\Http\Requests\codeRequest;
+use Modules\User\Http\Requests\loginRequest;
 use Modules\User\Models\User;
+use Modules\User\Transformers\UserResource;
 
 class AuthController extends Controller
 {
@@ -156,7 +159,7 @@ class AuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json('User loggedout seccessfully!');
     }
-    public function code(Request $request){
+    public function code(codeRequest $request){
         if ($request->phone) {  
                 
             Sms::where('phone', $request->phone)->delete();  
@@ -202,7 +205,7 @@ class AuthController extends Controller
        
         return response()->json(["message" => "لطفاً شماره تلفن یا ایمیل را وارد کنید."], 400);  
     } 
-    public function login(Request $request) {  
+    public function login(loginRequest $request) {  
        
         if ($request->name) {  
             $user = User::select('id', 'name', 'password')  
@@ -221,7 +224,10 @@ class AuthController extends Controller
     
              
             $token = $user->createToken($user->name)->plainTextToken; 
-            return response()->json(["Token" => $token]);  
+            return response()->json([  
+                'token' => $token,  
+                'user' => new UserResource($user) 
+            ]);    
         }  
     
         
@@ -242,7 +248,10 @@ class AuthController extends Controller
     
             
             $token = $user->createToken($user->phone)->plainTextToken;
-            return response()->json(["Token" => $token]);  
+            return response()->json([  
+                'token' => $token,  
+                'user' => new UserResource($user)   
+            ]); 
         }
         $code = Sms::select('phone', 'code', 'expiration_time')  
         ->where('phone', $request->phone)  
@@ -288,7 +297,10 @@ class AuthController extends Controller
     
             
             $token = $user->createToken($user->email)->plainTextToken;  
-            return response()->json(["Token" => $token]);  
+            return response()->json([  
+                'token' => $token,  
+                'user' => new UserResource($user)  
+            ]);
         }  
     
         
