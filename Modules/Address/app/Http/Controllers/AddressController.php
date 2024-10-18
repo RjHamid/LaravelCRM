@@ -11,24 +11,24 @@ class AddressController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id = null)  
+    public function index($user_id ='user_id')  
     {  
-        if ($id) {  
-            // پیدا کردن یک کارت خاص با ID مشخص  
-            $Address = Address::find($id);  
+        if ($user_id) {  
+            
+            $Address = Address::find($user_id);  
     
-            // بررسی وجود رکورد  
+           
             if (!$Address) {  
                 return response()->json(['message' => 'Address not found'], 404);  
             }  
     
-            // بازگشت تنها رکورد  
+            
             return response()->json($Address);  
         } else {  
-            // بازگشت تمام رکوردها  
+             
             $Address = Address::all();  
     
-            // بازگشت مجموعه رکوردها  
+            
             return response()->json($Address);  
         }  
     } 
@@ -64,18 +64,18 @@ class AddressController extends Controller
      */
     public function edit(Request $request, $id)  
     {  
-        // پیدا کردن رکورد  
+        
         $Address = Address::find($id);  
     
-        // بررسی وجود رکورد  
+       
         if (!$Address) {  
             return response()->json(['message' => 'Address not found'], 404);  
         }  
     
-        // بروزرسانی رکورد  
+        
         $Address->update($request->toArray());  
     
-        // بازگشت به روز رسانی شده  
+       
         return response()->json($Address);  
     }
 

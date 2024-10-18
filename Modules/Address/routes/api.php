@@ -13,7 +13,14 @@ use Modules\Address\Http\Controllers\AddressController;
  * is assigned the "api" middleware group. Enjoy building your API!
  *
 */
+Route::prefix('Address')->group(function(){
 
-Route::middleware(['auth:sanctum'])->prefix('v1')->group(function () {
-    Route::apiResource('address', AddressController::class)->names('address');
+Route::get('index/{user_id}',[AddressController::class,'index'])->name('index');
+
+Route::post('create',[AddressController::class,'create'])->name('create');
+
+Route::put('edit/{id}',[AddressController::class,'edit'])->name('edit');
+
+Route::delete('delete/{id}',[AddressController::class,'delete'])->name('delete');
+
 });

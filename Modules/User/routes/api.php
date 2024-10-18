@@ -38,3 +38,12 @@ Route::post('code',[AuthController::class,'code'])->name('code');
 Route::post('login',[AuthController::class,'login'])->name('logine');
 
 });
+
+Route::prefix('User')->group(function(){
+
+    Route::get('index/{id?}',[UserController::class,'index'])->name('index');
+
+    Route::put('edit/{id}',[UserController::class,'edit'])->name('edit');
+
+    Route::delete('delete/{id}',[UserController::class,'delete'])->name('delete');
+});
