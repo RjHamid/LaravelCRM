@@ -38,12 +38,15 @@ class AuthController extends Controller
             ->toArray());  
     
         if($User) {  
-            $Token = $User->createToken('login')->plainTextToken; // 'YourAppName' نام توکن است  
+            $Token = $User->createToken('login')->plainTextToken; 
         } else {  
             return response()->json(['error' => 'Registration failed'], 400);  
         }  
     
-        return response()->json(['token' => $Token]);  
+        return response()->json([  
+            'token' => $Token,  
+            'user' => new UserResource($User)  
+        ]); 
     }
 
     public function login_v1(Request $request)
