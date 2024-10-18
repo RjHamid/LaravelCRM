@@ -65,7 +65,7 @@ class CommentsController extends Controller
                 {
                     /*این بخش برای user باید update بشه*/
                     $comment =  Comment::query()->create([
-                        'user_id' => 2,
+                        'user_id' => 1,
                         'type' => $type,
                         'data_id' => $id,
                         'description' => $request->get('description'),

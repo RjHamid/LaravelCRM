@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
         // $users = User::factory()->count(5)->create();  
 
         // ایجاد ۸ آدرس برای هر کاربر  
-        $addresses = Address::factory()->count(5)->create();  
+        // $addresses = Address::factory()->count(5)->create();  
     
         // ایجاد ۸ دسته‌بندی  
         // $categories = Categories::factory()->count(5)->create();  

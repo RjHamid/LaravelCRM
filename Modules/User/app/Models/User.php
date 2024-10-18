@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Carts\Models\Carts;
 use Modules\Email\Models\Email;
 use Laravel\Sanctum\HasApiTokens;
+use Modules\Blog\Models\Blog;
+
 // use Modules\User\Database\Factories\UserFactory;
 
 class User extends Model
@@ -57,6 +59,10 @@ class User extends Model
     {  
         return $this->hasMany(Email::class);  
     } 
+    public function Bloge():HasMany
+    {  
+        return $this->hasMany(Blog::class);  
+    }
     // protected static function newFactory(): UserFactory
     // {
     //     // return UserFactory::new();

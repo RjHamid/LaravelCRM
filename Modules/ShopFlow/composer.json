@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/shopflow",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\ShopFlow\\": "app/",
+            "Modules\\ShopFlow\\Database\\Factories\\": "database/factories/",
+            "Modules\\ShopFlow\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\ShopFlow\\Tests\\": "tests/"
+        }
+    }
+}

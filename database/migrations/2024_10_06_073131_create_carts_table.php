@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('price_unit');
             $table->string('status');
             $table->index('unique_code');
+            $table->unique(['user_id','product_id']);
             $table->timestamps();
         });
     }

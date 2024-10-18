@@ -39,7 +39,7 @@ class ProductController extends Controller
         $cateType = Category::query()->where('id' , $request->get('category_id'))
             ->firstOrFail();
 
-        if ($cateType->type == 'blog' || 'بلاگ')
+        if ($cateType->type == 'blog')
         {
             return  response()->json([
                 'data' => [
@@ -111,7 +111,7 @@ class ProductController extends Controller
             $cateType = Category::query()->where('id' , $request->get('category_id'))
                 ->firstOrFail();
 
-            if ($cateType->type == 'blog' || 'بلاگ')
+            if ($cateType->type == 'blog')
             {
                 return  response()->json([
                     'data' => [

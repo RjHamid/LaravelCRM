@@ -1,0 +1,11 @@
+{
+    "name": "ShopFlow",
+    "alias": "shopflow",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\ShopFlow\\Providers\\ShopFlowServiceProvider"
+    ],
+    "files": []
+}
