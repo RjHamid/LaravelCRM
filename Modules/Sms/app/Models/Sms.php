@@ -17,7 +17,8 @@ class Sms extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [  
-        'phone', 
+        'phone',
+        'user_id', 
         'code',  
         'status',  
         'expiration_time',  

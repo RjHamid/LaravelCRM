@@ -12,7 +12,7 @@ class codeRequest extends FormRequest
     public function rules()  
     {  
         return [  
-            'phone' => 'nullable|string|regex:/^\d{10}$/',  
+            'phone' => 'nullable|string|regex:/^\d{11}$/',  
             'email' => 'nullable|email',  
         ];  
     }  
@@ -20,7 +20,7 @@ class codeRequest extends FormRequest
     public function messages()  
     {  
         return [  
-            'phone.regex' => 'شماره تلفن باید 10 رقمی باشد.',  
+            'phone.regex' => 'شماره تلفن باید 11 رقمی باشد.',  
             'email.email' => 'لطفاً یک آدرس ایمیل معتبر وارد کنید.',  
         ];
     }

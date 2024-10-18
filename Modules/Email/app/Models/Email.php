@@ -17,7 +17,8 @@ class Email extends Model
      * The attributes that are mass assignable.
      */
     protected $fillable = [
-        'email', 
+        'email',
+        'user_id', 
         'code',    
         'expiration_time', 
     ];

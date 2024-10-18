@@ -4,7 +4,10 @@ namespace Modules\Address\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Address\Http\Requests\CreateRequest;
+use Modules\Address\Http\Requests\EditRequest;
 use Modules\Address\Models\Address;
+use Modules\Address\Transformers\AddressResource;
 
 class AddressController extends Controller
 {
@@ -14,33 +17,27 @@ class AddressController extends Controller
     public function index($user_id ='user_id')  
     {  
         if ($user_id) {  
-            
-            $Address = Address::find($user_id);  
-    
-           
-            if (!$Address) {  
+            $address = Address::where('user_id', $user_id)->get(); // جستجو بر اساس user_id  
+
+            if ($address->isEmpty()) {  
                 return response()->json(['message' => 'Address not found'], 404);  
             }  
-    
-            
-            return response()->json($Address);  
+
+            return AddressResource::collection($address); 
         } else {  
-             
-            $Address = Address::all();  
-    
-            
-            return response()->json($Address);  
-        }  
+            $addresses = Address::all();  
+            return AddressResource::collection($addresses); 
+        }   
     } 
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Request $request){
+    public function create(CreateRequest $request){
 
         $Address=Address::create($request->toArray());
 
-        return response()->json($Address);
+        return response()->json(new AddressResource($Address));
     }
 
     /**
@@ -62,7 +59,7 @@ class AddressController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Request $request, $id)  
+    public function edit(EditRequest $request, $id)  
     {  
         
         $Address = Address::find($id);  
@@ -76,7 +73,7 @@ class AddressController extends Controller
         $Address->update($request->toArray());  
     
        
-        return response()->json($Address);  
+        return response()->json(new AddressResource($Address));  
     }
 
     /**
