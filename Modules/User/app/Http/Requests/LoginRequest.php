@@ -12,20 +12,18 @@ class loginRequest extends FormRequest
     public function rules()  
     {  
         return [  
-            'name' => 'nullable|string', 
-            'phone' => 'nullable|string|regex:/^\d{11}$/', 
-            'email' => 'nullable|email',  
-            'password' => 'nullable|string', 
-            'code' => 'nullable|string',  
-        ];  
+        'identifier' => 'required|string', 
+        'credential' => 'required|string', ];
     }  
 
     public function messages()  
     {  
         return [  
-            'phone.regex' => 'شماره تلفن باید 10 رقمی باشد.',  
-            'email.email' => 'لطفاً یک آدرس ایمیل معتبر وارد کنید.',  
-        ];  
+            'identifier.required' => 'لطفاً شناسه (نام، ایمیل یا شماره تلفن) را وارد کنید.',  
+            'credential.required' => 'لطفاً اعتبار (رمز عبور یا کد) را وارد کنید.',  
+            'identifier.string' => 'شناسه باید یک رشته باشد.',  
+            'credential.string' => 'اعتبار باید یک رشته باشد.',  
+            ];   
     }
 
     /**

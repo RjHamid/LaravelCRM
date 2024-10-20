@@ -16,15 +16,14 @@ class BlogResource extends JsonResource
     {
         return [  
             'id' => $this->id,  
-            'user_id' => $this->user_id,  
-            'category_id' => $this->category_id,  
+            'user' => new UserResource($this->user),  
+            'category' => new CategoryResource($this->category),  
             'title' => $this->title,  
             'description' => $this->description,  
             'pic' => $this->pic,  
-            'created_at' => $this->created_at,  
-            'updated_at' => $this->updated_at,  
-            'user' => new UserResource($this->whenLoaded('user')),  
-            'category' => new CategoryResource($this->whenLoaded('category')),  
+            'created_at' => $this->created_at->format('Y-m-d'),
+            'updated_at' => $this->updated_at->format('Y-m-d'), 
+          
         ];
     }
 }

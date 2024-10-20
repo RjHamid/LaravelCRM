@@ -14,14 +14,14 @@ use Modules\Blog\Http\Controllers\BlogController;
  *
 */
 
-Route::prefix('Blog')->group(function(){
+Route::prefix('Blogs')->group(function(){
 
     Route::get('index{id?}',[BlogController::class,'index'])->name('index');
 
     Route::post('store',[BlogController::class,'store'])->name('store');
 
-    Route::put('update/{Blog}', [BlogController::class, 'update'])->name('update');
+    Route::patch('update/{Blog}', [BlogController::class, 'update'])->name('update');
 
-    Route::delete('delete/{id}',[BlogController::class,'delete'])->name('delete');
+    Route::delete('delete/{Blog}',[BlogController::class,'delete'])->name('delete');
 
 });

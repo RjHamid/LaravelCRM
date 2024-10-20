@@ -11,22 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blogs', function (Blueprint $table) {
+        Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('category_id')->constrained();
-            $table->string('title')->unique();
-            $table->text('description');
-            $table->string('pic');
+            $table->foreignId('order_id')->constrained();
+            $table->string('tracking_code');
+            $table->string('card_pin');
+            $table->integer('total_price');
+            $table->string('status');
             $table->timestamps();
         });
     }
+
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('blogs');
+        Schema::dropIfExists('payments');
     }
 };

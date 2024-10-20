@@ -17,7 +17,7 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index($id = null)
+    public function index(Blog $Blog,$id)
  {
         if ($id) {
             $Blog = Blog::where('id', $id)->first();
@@ -34,16 +34,16 @@ class BlogController extends Controller
     public function store(storeRequest $request)  
     {  
      
-        $category = Category::findOrFail($request->get('category_id'));  
+     
     
         
-        $picPath = $request->file('pic')->store('public/products/pic');  
+        $picPath = $request->file('pic')->store('public/Blog/pic');  
         $pic = str_replace('public', '/storage', $picPath);  
     
-        $user_id = User::findOrFail($request->get('user_id'));
+      
         $blog = Blog::create([  
-            'user_id' => $user_id->id,
-            'category_id' => $category->id,  
+            'user_id' => $request->get('user_id'),
+            'category_id' => $request->get('category_id'),
             'title' => $request->get('title'),
             'description' => $request->get('description'),  
             'pic' => $pic,  
@@ -74,18 +74,9 @@ class BlogController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function update(updateRequest $request, $id)  
+    public function update(updateRequest $request, Blog $blog)  
     {   
-        
-        $blog = Blog::find($id);  
-        
-        if (!$blog) {  
-            return response()->json([  
-                'data' => [  
-                    'message' => 'بلاگ یافت نشد'  
-                ]  
-            ], 404);   
-        }  
+      
     
         $titleExists = Blog::query()  
             ->where('title', $request->get('title'))  
@@ -100,12 +91,7 @@ class BlogController extends Controller
             ], 400);   
         }  
     
-        if ($request->filled('category_id')) {  
-            $category = Category::find($request->get('category_id'));  
-            if (!$category) {  
-                return response()->json(['message' => 'دسته‌بندی یافت نشد'], 404);  
-            }  
-        }  
+         
     
         $pic = $blog->pic;   
     
@@ -115,7 +101,7 @@ class BlogController extends Controller
                 Storage::delete($old_image);  
             }  
             
-            $picPath = $request->file('pic')->store('public/products/pic');  
+            $picPath = $request->file('pic')->store('public/Blog/pic');  
             $pic = str_replace('public', '/storage', $picPath);  
         }  
         
@@ -128,7 +114,7 @@ class BlogController extends Controller
         ]);  
     
        
-        $blog->refresh();  
+       
         
         return response()->json([  
             'data' => [  
@@ -147,9 +133,9 @@ class BlogController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function delete(Request $request,$id)
+    public function delete(Blog $Blog)
     {
-        $Blog = Blog::where('id', $request->id)->first();
+       
         if ($Blog) {
             $Blog->delete();
             return response()->json('Blog deleted successfully!');

@@ -7,11 +7,11 @@ use App\Mail\Mail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail as FacadesMail;
-use Modules\Email\Models\Email;
-use Modules\Sms\Models\Sms;
+use Illuminate\Support\Facades\Mail as FacadesMail;;
 use Modules\User\Http\Requests\codeRequest;
 use Modules\User\Http\Requests\loginRequest;
+use Modules\User\Models\Email;
+use Modules\User\Models\Sms;
 use Modules\User\Models\User;
 use Modules\User\Transformers\UserResource;
 
@@ -210,127 +210,59 @@ class AuthController extends Controller
     } 
     public function login(loginRequest $request) {  
        
-        if ($request->name) {  
-            $user = User::select('id', 'name', 'password')  
-                ->where('name', $request->name)  
-                ->first();  
-    
-            
-            if (!$user) {  
-                return response()->json('User not found!');  
-            }   
-    
-            
-            if (!Hash::check($request->password, $user->password)) {  
-                return response()->json('Password is INCORRECT!');  
-            }  
-    
-             
-            $token = $user->createToken($user->name)->plainTextToken; 
-            return response()->json([  
-                'token' => $token,  
-                'user' => new UserResource($user) 
-            ]);    
-        }  
-    
-        
-        if ($request->phone) {  
-            $user = User::select('id', 'phone', 'password')  
-                ->where('phone', $request->phone)  
-                ->first();  
-    
-            if (!$user) {  
-                return response()->json('User not found!');  
-            }  
-    
-            if($request->has('password')){
+     $user = User::select('id', 'name', 'email', 'phone', 'password')  
+ ->where('name', $request->identifier)  
+ ->orWhere('email', $request->identifier)  
+ ->orWhere('phone', $request->identifier)  
+ ->first();  
 
-            if (!Hash::check($request->password, $user->password)) {  
-                return response()->json('Password is INCORRECT!');  
-            }  
-    
-            
-            $token = $user->createToken($user->phone)->plainTextToken;
-            return response()->json([  
-                'token' => $token,  
-                'user' => new UserResource($user)   
-            ]); 
-        }
-        $code = Sms::select('phone', 'code', 'expiration_time')  
-        ->where('phone', $request->phone)  
-        ->first();  
+if (!$user) {  
+ return response()->json('User not found!',404);  
+ }  
 
-    $now = Carbon::now()->format('Y-m-d H:i:s');  
+ if (Hash::check($request->credential, $user->password)) {  
+ $token = $user->createToken($user->name ?? $user->email ?? $user->phone)->plainTextToken;  
+ return response()->json([  
+ 'token' => $token,  
+ 'user' => new UserResource($user)  
+ ]);  
+ }  
 
-    
-    if ($now <= $code['expiration_time']) {  
-        
-        if ($code['code'] == $request->code) {  
-            
-            $token = $user->createToken($request->phone)->plainTextToken;  
-            Sms::where('code', $request->code)->delete();  
+ $codeEntry = null;  
 
-            return response()->json(["Token" => $token]);  
-        } else {  
-            return response()->json('Code or phone is INCORRECT', 401);  
-        }  
-    } else {  
-        return response()->json('The code is EXPIRED!', 400);  
-    } 
-        
-    }
-    
-        
-        if ($request->email) {  
-            $user = User::select('id', 'email', 'password')  
-            ->where('email', $request->email)  
-            ->first();  
-    
-        
-        if (!$user) {  
-            return response()->json('User not found!', 404);  
-        }  
-    
-         
-        if ($request->has('password')) {  
-           
-            if (!Hash::check($request->password, $user->password)) {  
-                return response()->json('Password is INCORRECT!', 401);  
-            }  
-    
-            
-            $token = $user->createToken($user->email)->plainTextToken;  
-            return response()->json([  
-                'token' => $token,  
-                'user' => new UserResource($user)  
-            ]);
-        }  
-    
-        
-        $code = Email::select('email', 'code', 'expiration_time')  
-            ->where('email', $request->email)  
-            ->first();  
-    
-        $now = Carbon::now()->format('Y-m-d H:i:s');  
-    
-        
-        if ($now <= $code['expiration_time']) {  
-            
-            if ($code['code'] == $request->code) {  
-                
-                $token = $user->createToken($request->email)->plainTextToken;  
-                Sms::where('code', $request->code)->delete();  
-    
-                return response()->json(["Token" => $token]);  
-            } else {  
-                return response()->json('Code or email is INCORRECT', 401);  
-            }  
-        } else {  
-            return response()->json('The code is EXPIRED!', 400);  
-        }  
-        
-    }
-    
+ if ($user->phone === $request->identifier) {  
+ $codeEntry = Sms::select('phone', 'code', 'expiration_time')  
+ ->where('phone', $user->phone)  
+ ->first();  
+ } elseif ($user->email === $request->identifier) {  
+ $codeEntry = Email::select('email', 'code', 'expiration_time')  
+ ->where('email', $user->email)  
+ ->first();  
+ }  
+
+ if (!$codeEntry) {  
+ return response()->json('Code not found!',404);  
+ }  
+
+ $now = Carbon::now()->format('Y-m-d H:i:s');  
+
+ if ($now <= $codeEntry->expiration_time) {  
+  if ($codeEntry->code == $request->credential) {  
+ $token = $user->createToken($user->name ?? $user->email ?? $user->phone)->plainTextToken;  
+ if ($user->phone === $request->identifier) {  
+ Sms::where('phone', $user->phone)->delete();  
+ } else {  
+ Email::where('email', $user->email)->delete();  
+ }  
+ return response()->json(["token" => $token]);  
+ } else {  
+ return response()->json('Code is INCORRECT!',401);  
+ }  
+ } else {  
+ return response()->json('The code is EXPIRED!',400);  
+ }  
 }
     
 }
+    
+

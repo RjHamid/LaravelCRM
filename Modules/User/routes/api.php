@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AddressController;
 use Illuminate\Support\Facades\Route;
 use Modules\User\Http\Controllers\AuthController;
 use Modules\User\Http\Controllers\UserController;
@@ -37,6 +38,8 @@ Route::post('code',[AuthController::class,'code'])->name('code');
 
 Route::post('login',[AuthController::class,'login'])->name('logine');
 
+Route::post('logout/{id}',[AuthController::class,'logout'])->name('logout');
+
 });
 
 Route::prefix('User')->group(function(){
@@ -47,3 +50,14 @@ Route::prefix('User')->group(function(){
 
     Route::delete('delete/{id}',[UserController::class,'delete'])->name('delete');
 });
+Route::prefix('Address')->group(function(){
+
+    Route::get('index/{user_id}',[AddressController::class,'index'])->name('index');
+    
+    Route::post('create',[AddressController::class,'create'])->name('create');
+    
+    Route::put('edit/{id}',[AddressController::class,'edit'])->name('edit');
+    
+    Route::delete('delete/{id}',[AddressController::class,'delete'])->name('delete');
+    
+    });
