@@ -20,21 +20,7 @@ Route::prefix('Auth')->group(function(){
 
 Route::post('register',[AuthController::class,'register'])->name('register');
 
-Route::post('login_v1',[AuthController::class,'login_v1'])->name('login_v1');
-
-Route::post('login_v2',[AuthController::class,'login_v2'])->name('login_v2');
-
-Route::post('login_request', [AuthController::class,'login_request'])->name('login_request');
-
-Route::post('email_request',[AuthController::class,'email_request'])->name('email_request');
-
-Route::post('login_code',[AuthController::class,'login_code'])->name('login_code');
-
-Route::post('email_code',[AuthController::class,'email_code'])->name('email_code');
-
-Route::post('logout',[AuthController::class,'logout'])->name('logout');
-
-Route::post('code',[AuthController::class,'code'])->name('code');
+Route::post('verify_code',[AuthController::class,'verify_code'])->name('verify_code');
 
 Route::post('login',[AuthController::class,'login'])->name('logine');
 
