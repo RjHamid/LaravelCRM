@@ -7,7 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Modules\User\Transformers\UserPublicResource;
 use Modules\User\Transformers\UserResource;
 
-class ProductCommentResource extends JsonResource
+class BlogCommentResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

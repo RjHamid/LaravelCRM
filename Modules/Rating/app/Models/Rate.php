@@ -4,6 +4,8 @@ namespace Modules\Rating\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Modules\User\Models\User;
+
 // use Modules\Rating\Database\Factories\RateFactory;
 
 class Rate extends Model
@@ -12,9 +14,10 @@ class Rate extends Model
 
     protected $table = 'ratings';
 
-    /**
-     * The attributes that are mass assignable.
-     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     protected $guarded = [];
 
 }

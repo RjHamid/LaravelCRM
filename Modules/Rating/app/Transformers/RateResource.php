@@ -4,6 +4,8 @@ namespace Modules\Rating\Transformers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\User\Transformers\UserPublicResource;
+use Modules\User\Transformers\UserResource;
 
 class RateResource extends JsonResource
 {
@@ -17,7 +19,7 @@ class RateResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'user' => $this->user_id,
+            'user' => new UserPublicResource($this->user),
             'type' =>$this->type,
             'rate' => $this->rate,
             'created_at' => $this->created_at->format('Y-m-d'),

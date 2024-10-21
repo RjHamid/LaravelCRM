@@ -10,6 +10,9 @@ use Modules\ShopFlow\Http\Requests\CartsRequest\NewCartRequest;
 use Modules\ShopFlow\Http\Requests\CartsRequest\UpdateCartRequest;
 use Modules\ShopFlow\Models\cart;
 use Modules\ShopFlow\Transformers\CartResources\CartResource;
+use Modules\ShopFlow\Transformers\CartsResource;
+use Modules\User\Models\User;
+use Modules\User\Transformers\UserResource;
 
 class CartController extends Controller
 {
@@ -24,9 +27,11 @@ class CartController extends Controller
 
         if (!empty($carts))
         {
+            $user = User::find(1);
             return response()->json([
                 'data' =>[
-                    'carts' => CartResource::collection($carts)
+                    'user' =>  new UserResource($user),
+                    'carts' => CartsResource::collection($carts)
                 ]
             ])->setStatusCode(200);
         }
@@ -72,10 +77,13 @@ class CartController extends Controller
                        ->where('status','pending')
                        ->get();
 
+                   $user = User::find(1);
+
                    return response()->json([
                        'data' =>[
                            'message' => 'این محصول از قبل در سبد خرید  موجود است',
-                           'carts' => CartResource::collection($carts)
+                           'user' =>  new UserResource($user),
+                           'carts' => CartsResource::collection($carts)
                        ]
                    ])->setStatusCode(200);
                }
@@ -95,10 +103,13 @@ class CartController extends Controller
                    ->where('status','pending')
                    ->get();
 
+               $user = User::find(1);
+
                return response()->json([
                    'data' =>[
                        'message' => 'سبد خرید با موفقت ایجاد شد',
-                       'carts' => CartResource::collection($carts)
+                       'user' =>  new UserResource($user),
+                       'carts' => CartsResource::collection($carts)
                    ]
                ])->setStatusCode(200);
 
@@ -131,7 +142,7 @@ class CartController extends Controller
 
                return response()->json([
                    'data' =>[
-                       'message' => 'سبد خرید با موفقت ایجاد شد',
+                       'message' => 'سبد خرید با موفقیت  ایجاد شد',
                        'cart' => new CartResource($cart)
                    ]
                ])->setStatusCode(200);
@@ -163,10 +174,13 @@ class CartController extends Controller
             ->where('status','pending')
             ->get();
 
+        $user = User::find(1);
+
         return response()->json([
             'data' =>[
                 'message' => 'کارت با موفقت ایجاد اپدیت شد',
-                'carts' => CartResource::collection($carts)
+                'user' =>  new UserResource($user),
+                'carts' => CartsResource::collection($carts)
             ]
         ])->setStatusCode(200);
     }

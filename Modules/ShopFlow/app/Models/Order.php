@@ -17,7 +17,7 @@ class order extends Model
 
     public function carts()
     {
-        return $this->hasMany(cart::class);
+        return $this->hasMany(cart::class , 'unique_code');
     }
 
     public function progress()

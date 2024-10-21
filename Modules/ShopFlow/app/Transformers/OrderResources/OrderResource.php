@@ -4,8 +4,9 @@ namespace Modules\ShopFlow\Transformers\OrderResources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
-use Modules\ShopFlow\Transformers\CartResources\CartResource;
+use Modules\ShopFlow\Transformers\CartsResource;
 use Modules\ShopFlow\Transformers\S\OrderProgressResource;
+use Modules\User\Transformers\UserResource;
 
 class OrderResource extends JsonResource
 {
@@ -16,14 +17,14 @@ class OrderResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'user' => $this->user_id,
+            'user' => new UserResource($this->user),
             'code' => $this->unique_code,
             'address' => $this->address_id,
             'gate' => $this->gate,
             'price_total' => $this->price_total,
             'status' => $this->status,
             'progress' => new OrderProgressResource($this->progress),
-            'carts' => CartResource::collection($this->carts)
+            'carts' => CartsResource::collection($this->carts)
         ];
     }
 }

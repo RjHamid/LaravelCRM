@@ -68,9 +68,53 @@ class RatingController extends Controller
                 }
                 break;
             case 'blog' :
-                return response([
-                    'data'=> ''
-                ]);
+                $userRateExists = Rate::query()->where('user_id' , 1)
+                    ->where('type' , 'blog')
+                    ->where('data_id' , $id)
+                    ->first();
+
+                if (!empty($userRateExists))
+                {
+                    $userRateExists->update([
+                        'rate' => $request->get('rate')
+                    ]);
+
+                    return response()->json([
+                        'data' => [
+                            'message' => 'امتیاز مورده نظر با موفقیت ثبت شد',
+                            'rate' => New RateResource($userRateExists)
+                        ]
+                    ])->setStatusCode(200);
+                }
+
+
+                $blogExists = Product::query()->where('id' , $id)
+                    ->exists();
+
+                if ($blogExists)
+                {
+                    /*این بخش برای user باید update بشه*/
+                    $rating =  Rate::query()->create([
+                        'user_id' => 1,
+                        'type' => $type,
+                        'data_id' => $id,
+                        'rate' => $request->get('rate'),
+                    ]);
+
+                    return response()->json([
+                        'data' => [
+                            'message' => 'امتیاز مورده نظر با موفقیت ثبت شد',
+                            'rate' => New RateResource($rating)
+                        ]
+                    ])->setStatusCode(200);
+                } else
+                {
+                    return  response()->json([
+                        'data' => [
+                            'message' => 'ایدی فرستاده شده درست نیست'
+                        ]
+                    ])->setStatusCode(200);
+                }
                 break;
             default :
                 return response()->json([

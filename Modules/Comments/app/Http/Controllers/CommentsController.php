@@ -4,6 +4,7 @@ namespace Modules\Comments\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Blog\Models\Blog;
 use Modules\Comments\Http\Requests\NewCommentRequest;
 use Modules\Comments\Http\Requests\UpdateCommentRequest;
 use Modules\Comments\Models\Comment;
@@ -73,7 +74,7 @@ class CommentsController extends Controller
 
                     return response()->json([
                         'data' => [
-                            'message' => 'کامنت مورده نظر با موفقیت انجام شد'
+                            'message' => 'کامنت مورده نظر با موفقیت ثبت شد'
                         ]
                     ])->setStatusCode(200);
                 } else
@@ -86,9 +87,32 @@ class CommentsController extends Controller
                 }
                 break;
             case 'blog' :
-                return response([
-                    'data'=> ''
-                ]);
+                $blogExists = Blog::query()->where('id' , $id)
+                    ->exists();
+
+                if ($blogExists)
+                {
+                    /*این بخش برای user باید update بشه*/
+                    $comment =  Comment::query()->create([
+                        'user_id' => 1,
+                        'type' => $type,
+                        'data_id' => $id,
+                        'description' => $request->get('description'),
+                    ]);
+
+                    return response()->json([
+                        'data' => [
+                            'message' => 'کامنت مورده نظر با موفقیت ثبت شد'
+                        ]
+                    ])->setStatusCode(200);
+                } else
+                {
+                    return  response()->json([
+                        'data' => [
+                            'message' => 'ایدی فرستاده شده درست نیست'
+                        ]
+                    ])->setStatusCode(200);
+                }
                 break;
             default :
                 return response()->json([

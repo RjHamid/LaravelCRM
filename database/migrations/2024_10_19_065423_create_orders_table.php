@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('unique_code')->unique(); // اینجا unique_code را مشابه تعریف کنید  
             $table->foreign('unique_code')  
                   ->references('unique_code')  

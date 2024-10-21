@@ -4,6 +4,7 @@ namespace Modules\ProductSuiteManager\Transformers\CategoryResources;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Blog\Transformers\BlogResource;
 
 class CategoryBlogResource extends JsonResource
 {
@@ -19,7 +20,7 @@ class CategoryBlogResource extends JsonResource
             'type' =>$this->type,
             'created_at' => $this->created_at->format('Y-m-d'),
             'updated_at' => $this->updated_at->format('Y-m-d'),
-            'blogs' =>''
+            'blogs' => BlogResource::collection($this->blogs)
         ];
     }
 }

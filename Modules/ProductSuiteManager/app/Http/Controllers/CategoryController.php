@@ -131,7 +131,7 @@ class CategoryController extends Controller
             return response()->json(
                 [
                     'data' => [
-                        'message'  => 'دسته بندی مورد نطر دارای محصول است'
+                        'message'  => 'دسته بندی مورد نظر دارای محصول یا بلاگ است'
                     ]
                 ]
             );
@@ -154,13 +154,26 @@ class CategoryController extends Controller
     {
         $categories = Category::query()->where('type' , $type)->get();
 
-        return response()->json(
-            [
-                'data' => [
-                    'blogsCategory' => CategoryResource::collection($categories)
+        if (!empty($categories))
+        {
+            return response()->json(
+                [
+                    'data' => [
+                        $type.' '.'Category' => CategoryResource::collection($categories)
+                    ]
                 ]
-            ]
-        )->setStatusCode(200);
+            )->setStatusCode(200);
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'data' => [
+                        'message' => 'تایپ ارسال شده درست نیست'
+                    ]
+                ]
+            )->setStatusCode(200);
+        }
 
      }
 }

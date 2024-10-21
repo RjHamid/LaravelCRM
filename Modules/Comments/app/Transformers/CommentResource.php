@@ -4,8 +4,12 @@ namespace Modules\Comments\Transformers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Blog\Transformers\BlogResource;
+use Modules\Blog\Transformers\BlogWithNoattributeResource;
 use Modules\ProductSuiteManager\Models\Product;
+use Modules\ProductSuiteManager\Transformers\ProductResources\ProductForCartResource;
 use Modules\ProductSuiteManager\Transformers\ProductResources\ProductResource;
+use Modules\User\Transformers\UserResource;
 
 class CommentResource extends JsonResource
 {
@@ -17,24 +21,27 @@ class CommentResource extends JsonResource
 
         $data = null;
 
-        if ($this->type == 'product' || 'محصول')
+        if ($this->type == 'product')
         {
             $productId = $this->data_id;
             $product =  Product::query()->where('id' , $productId)
                 ->firstOrFail();
 
-            $data  = new ProductResource($product);
+            $data  = new ProductForCartResource($product);
 
         }
-        elseif ($this->type == 'blog' || 'بلاگ')
+        elseif ($this->type == 'blog')
         {
-            /*بمونه برای بعد*/
+            $blogId = $this->data_id;
+            $blog =  Product::query()->where('id' , $blogId)
+                ->firstOrFail();
+
+            $data  = new BlogWithNoattributeResource($blog);
         }
 
         return [
             'id' => $this->id,
-            /*این بعدا باید درست شه*/
-            'user' => $this->user_id,
+            'user' => new UserResource($this->user),
             'type' => $this->type,
             'status' => $this->status,
             'data' => $data,
