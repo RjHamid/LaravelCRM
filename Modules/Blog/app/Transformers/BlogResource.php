@@ -38,10 +38,10 @@ class BlogResource extends JsonResource
 
         $rate = [];
 
-        $productRating =  Rate::query()->where('type' , 'blog')
+        $blogRating =  Rate::query()->where('type' , 'blog')
             ->where('data_id',$this->id)->exists();
 
-        if ($productRating)
+        if ($blogRating)
         {
             $ra = Rate::query()->where('type' ,'blog')
                 ->where('data_id',$this->id)
