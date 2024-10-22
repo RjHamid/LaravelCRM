@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Mail;
+namespace Modules\User\Emails;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 
-class Mail extends Mailable
+class SendEmail extends Mailable
 {
     use Queueable, SerializesModels;
     public $code;
@@ -20,10 +20,6 @@ class Mail extends Mailable
     {
         $this->code = $code;
     }
-
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope  
     {  
         return new Envelope(  
@@ -33,7 +29,7 @@ class Mail extends Mailable
     }
 
     /**
-     * Get the message content definition.
+     * Build the message.
      */
     public function content(): Content
     {
@@ -41,12 +37,6 @@ class Mail extends Mailable
             view: 'email',
         );
     }
-
-    /**
-     * Get the attachments for the message.
-     *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
-     */
     public function attachments(): array
     {
         return [];

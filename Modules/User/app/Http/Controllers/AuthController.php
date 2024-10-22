@@ -7,7 +7,10 @@ use App\Mail\Mail;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail as FacadesMail;;
+use Illuminate\Support\Facades\Mail as FacadesMail;
+use Modules\User\Emails\SendEmail;
+
+;
 use Modules\User\Http\Requests\codeRequest;
 use Modules\User\Http\Requests\loginRequest;
 use Modules\User\Models\Email;
@@ -84,7 +87,7 @@ class AuthController extends Controller
             $expiration_time = Carbon::now()->addMinutes(5)->format('Y-m-d H:i:s');  
             
             
-            FacadesMail::to($request->email)->send(new Mail($code));  
+            FacadesMail::to($request->email)->send(new SendEmail($code));  
             
             
             $data_email = Email::create([  
