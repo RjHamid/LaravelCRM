@@ -15,7 +15,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained();
             $table->foreignId('property_id')->constrained();
             $table->string('value');
-            $table->primary(['product_id ,property_id']);
+            $table->primary(['product_id','property_id']);
         });
     }
 

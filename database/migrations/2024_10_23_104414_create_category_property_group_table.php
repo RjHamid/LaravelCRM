@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('category_property_group', function (Blueprint $table) {
             $table->foreignId('category_id')->constrained();
-            $table->foreignId('property_group_id')->constrained();
+            $table->foreignId('property_group_id')->constrained('property_group');
 
-            $table->primary(['category_id ,property_group_id']);
+            $table->primary(['category_id','property_group_id']);
         });
     }
 
