@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('property_group_id')->constrained();
+            $table->string('title');
             $table->timestamps();
         });
     }
