@@ -17,26 +17,45 @@ class BlogController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Blog $Blog,$id)
- {
-        if ($id) {
-            $Blog = Blog::where('id', $id)->first();
-        } else {
-            $Blog = Blog::paginate(10);
-        }
-        return response()->json($Blog);
+    public function index()
+    {
+
+        return response()->json([
+            'data' => [
+                'blogs' => BlogResource::collection(Blog::paginate(9))
+            ]
+        ]);
     
-}
+    }
 
     /**
      * Show the form for creating a new resource.
      */
+
+    public function show(Blog $blog)
+    {
+        return response()->json([
+            'data' => [
+                'blog' => new BlogResource($blog)
+            ]
+        ]);
+    }
+
     public function store(storeRequest $request)  
-    {  
-     
-     
-    
-        
+    {
+
+        $cateType = Category::query()->where('id' , $request->get('category_id'))
+            ->firstOrFail();
+
+        if ($cateType->type == 'product')
+        {
+            return  response()->json([
+                'data' => [
+                    'message' => 'دسته بندی انتخاب شده نمیتواند از نوع محصول باشد برای بلاگ'
+                ]
+            ]);
+        }
+
         $picPath = $request->file('pic')->store('public/Blog/pic');  
         $pic = str_replace('public', '/storage', $picPath);  
     
@@ -75,7 +94,22 @@ class BlogController extends Controller
      * Show the form for editing the specified resource.
      */
     public function update(updateRequest $request, Blog $blog)  
-    {   
+    {
+
+        if ($request->filled('category_id'))
+        {
+            $cateType = Category::query()->where('id' , $request->get('category_id'))
+                ->firstOrFail();
+
+            if ($cateType->type == 'product')
+            {
+                return  response()->json([
+                    'data' => [
+                        'message' => 'دسته بندی انتخاب شده نمیتواند از نوع محصول باشد برای بلاگ'
+                    ]
+                ]);
+            }
+        }
       
     
         $titleExists = Blog::query()  
@@ -135,7 +169,6 @@ class BlogController extends Controller
      */
     public function delete(Blog $Blog)
     {
-       
         if ($Blog) {
             $Blog->delete();
             return response()->json('Blog deleted successfully!');

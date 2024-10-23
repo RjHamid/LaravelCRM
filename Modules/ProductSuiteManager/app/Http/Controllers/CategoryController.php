@@ -126,7 +126,7 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
 
-        if ($category->products()->count() > 0)
+        if ($category->products()->count() > 0 && $category->blogs()->count() > 0)
         {
             return response()->json(
                 [

@@ -4,6 +4,7 @@ namespace Modules\Rating\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Blog\Models\Blog;
 use Modules\Comments\Models\Comment;
 use Modules\ProductSuiteManager\Models\Product;
 use Modules\Rating\Http\Requests\RateRequest;
@@ -88,7 +89,7 @@ class RatingController extends Controller
                 }
 
 
-                $blogExists = Product::query()->where('id' , $id)
+                $blogExists = Blog::query()->where('id' , $id)
                     ->exists();
 
                 if ($blogExists)

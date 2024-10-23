@@ -4,6 +4,7 @@ namespace Modules\Comments\Transformers;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Modules\Blog\Models\Blog;
 use Modules\Blog\Transformers\BlogResource;
 use Modules\Blog\Transformers\BlogWithNoattributeResource;
 use Modules\ProductSuiteManager\Models\Product;
@@ -33,7 +34,7 @@ class CommentResource extends JsonResource
         elseif ($this->type == 'blog')
         {
             $blogId = $this->data_id;
-            $blog =  Product::query()->where('id' , $blogId)
+            $blog =  Blog::query()->where('id' , $blogId)
                 ->firstOrFail();
 
             $data  = new BlogWithNoattributeResource($blog);

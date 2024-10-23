@@ -16,12 +16,14 @@ use Modules\Blog\Http\Controllers\BlogController;
 
 Route::prefix('Blogs')->group(function(){
 
-    Route::get('index{id?}',[BlogController::class,'index'])->name('index');
+    Route::get('index',[BlogController::class,'index'])->name('index');
+
+    Route::get('show/{blog}',[BlogController::class,'show'])->name('show');
 
     Route::post('store',[BlogController::class,'store'])->name('store');
 
-    Route::patch('update/{Blog}', [BlogController::class, 'update'])->name('update');
+    Route::patch('update/{blog}', [BlogController::class, 'update'])->name('update');
 
-    Route::delete('delete/{Blog}',[BlogController::class,'delete'])->name('delete');
+    Route::delete('delete/{blog}',[BlogController::class,'delete'])->name('delete');
 
 });

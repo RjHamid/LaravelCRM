@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->string('type');
-            $table->integer('date_id');
+            $table->integer('data_id');
             $table->integer('rate');
             $table->timestamps();
         });
