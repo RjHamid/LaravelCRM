@@ -6,5 +6,6 @@
     "Address": true,
     "Sms": true,
     "Email": true,
-    "Blog": true
+    "Blog": true,
+    "Permission": true
 }

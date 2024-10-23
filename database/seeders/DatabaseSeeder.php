@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
         // $products = Products::factory()->count(5)->create();  
     
         // ایجاد ۸ نقش  
-        $roles = Roles::factory()->count(5)->create();  
+        // $roles = Roles::factory()->count(5)->create();  
     
         // ایجاد ۸ سفارش و نسبت دادن هر سفارش به یک کاربر تصادفی  
         // $orders = Order::factory()->count(5)->create();
